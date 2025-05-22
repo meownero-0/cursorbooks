@@ -1,0 +1,324 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: white;
+    color: #333;
+}
+
+nav {
+    background-color: #4CAF50;
+    padding: 10px;
+    color: white;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
+    text-decoration: none;
+}
+
+.container {
+    padding: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 8px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.book-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.book-detail h1 {
+    color: #2c3e50;
+    margin-bottom: 5px;
+}
+
+.book-detail .author {
+    color: #7f8c8d;
+    font-style: italic;
+    margin-bottom: 30px;
+}
+
+.book-info, .tour-info {
+    background: #f9f9f9;
+    padding: 20px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.tour-info ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.tour-info li {
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.map-link {
+    display: inline-block;
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.map-link:hover {
+    background: #45a049;
+}
+
+.user-actions {
+    margin: 30px 0;
+    padding: 20px;
+    background: #f5f5f5;
+    border-radius: 5px;
+}
+
+.complete-btn {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.completed-message {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.rating-section {
+    margin-top: 20px;
+}
+
+.rating-section select {
+    padding: 5px;
+    margin-right: 10px;
+}
+
+.tour-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    background: #e8f5e9;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.tour-stats h3 {
+    grid-column: 1 / -1;
+    margin: 0 0 15px 0;
+    color: #2c3e50;
+}
+
+.tour-stats p {
+    margin: 0;
+    padding: 10px;
+    background: white;
+    border-radius: 4px;
+    text-align: center;
+}
+
+.tour-stats strong {
+    display: block;
+    margin-bottom: 5px;
+    color: #4CAF50;
+}
+
+.login-prompt {
+    text-align: center;
+    margin: 20px 0;
+    padding: 15px;
+    background: #fff3e0;
+    border-radius: 5px;
+}
+
+.login-prompt a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.playlist-section {
+    background: #f5f5f5;
+    padding: 20px;
+    border-radius: 5px;
+    margin: 20px 0;
+}
+
+.playlist-section h2 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.playlist {
+    list-style: none;
+    padding: 0;
+}
+
+.playlist li {
+    padding: 10px;
+    margin: 5px 0;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.playlist li:hover {
+    background: #e8f5e9;
+    cursor: pointer;
+}
+
+.search-section {
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-form {
+    display: flex;
+    gap: 10px;
+}
+
+.search-form input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.search-form button {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-form button:hover {
+    background-color: #45a049;
+}
+
+.view-all-section {
+    display: flex;
+    gap: 10px;
+}
+
+.view-all-btn {
+    padding: 8px 16px;
+    background-color: #f8f9fa;
+    color: #333;
+    text-decoration: none;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+}
+
+.view-all-btn:hover {
+    background-color: #e9ecef;
+    border-color: #ced4da;
+}
+
+.all-books-list {
+    list-style: none;
+    padding: 0;
+}
+
+.all-books-list li {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+.all-books-list li:last-child {
+    border-bottom: none;
+}
+
+.all-books-list a {
+    color: #4CAF50;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.all-books-list a:hover {
+    text-decoration: underline;
+}
+
+#map {
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin: 20px 0;
+    position: relative;
+}
+
+.map-error {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 15px 25px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    color: #d32f2f;
+    text-align: center;
+    z-index: 1000;
+}
+
+/* Стили для элементов управления картой */
+.ymaps-2-1-79-controls__control {
+    background-color: white !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.ymaps-2-1-79-controls__control:hover {
+    background-color: #f5f5f5 !important;
+}
+
+/* Стили для меток на карте */
+.ymaps-2-1-79-placemark {
+    cursor: pointer !important;
+}
+
+.ymaps-2-1-79-placemark:hover {
+    opacity: 0.8 !important;
+}
+
+/* Стили для балуна (всплывающего окна) */
+.ymaps-2-1-79-balloon {
+    border-radius: 4px !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.ymaps-2-1-79-balloon__content {
+    padding: 10px !important;
+} 

@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Главная - Исторические туры по городу{% endblock %}
+
+{% block content %}
+    <h1>Добро пожаловать в Исторические туры по городу</h1>
+    <div class="search-section">
+        <form action="{{ url_for('index') }}" method="get" class="search-form">
+            <input type="text" name="search" placeholder="Поиск по автору или названию" value="{{ search_query if search_query else '' }}">
+            <button type="submit">Поиск</button>
+        </form>
+        <div class="view-all-section">
+            <a href="{{ url_for('index', view='all', sort='popularity') }}" class="view-all-btn">Все книги (по популярности)</a>
+            <a href="{{ url_for('index', view='all', sort='rating') }}" class="view-all-btn">Все книги (по рейтингу)</a>
+        </div>
+    </div>
+    <p><a href="https://music.yandex.ru/users/ilapetrov34053/playlists/1029" target="_blank">Слушать плейлист в Яндекс.Музыке</a></p>
+
+    {% if view_all %}
+        <h2>Все книги (Сортировка по {{ 'популярности' if sort_by == 'popularity' else 'рейтингу' }})</h2>
+        <ul class="all-books-list">
+            {% for book in all_books %}
+                <li>
+                    <a href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a>
+                    автор: {{ book.author }}
+                    {% if sort_by == 'popularity' %}
+                        - {{ book.tours[0].completions|length if book.tours else 0 }} прохождений
+                    {% else %}
+                        - Рейтинг: {{ (book.tours[0].ratings|sum(attribute='score') / book.tours[0].ratings|length)|round(1) if book.tours and book.tours[0].ratings else 'Нет оценок' }}
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% elif search_query %}
+        <h2>Результаты поиска для "{{ search_query }}"</h2>
+        {% if books %}
+            <ul>
+                {% for book in books %}
+                    <li>
+                        <a href="{{ url_for('book_detail', book_id=book.id) }}">{{ book.title }}</a>
+                        автор: {{ book.author }}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>Книги не найдены.</p>
+        {% endif %}
+    {% endif %}
+
+    <h2>Популярные туры (за последний месяц)</h2>
+    <ul>
+        {% if popular_tours %}
+            {% for tour in popular_tours %}
+                <li><a href="{{ url_for('book_detail', book_id=tour.book.id) }}">{{ tour.book.title }}</a> - {{ tour.completions|length }} прохождений</li>
+            {% endfor %}
+        {% else %}
+            <li>Нет популярных туров за последний месяц</li>
+        {% endif %}
+    </ul>
+    <h2>Туры с наивысшим рейтингом</h2>
+    <ul>
+        {% if top_rated_tours %}
+            {% for tour in top_rated_tours %}
+                <li><a href="{{ url_for('book_detail', book_id=tour.book.id) }}">{{ tour.book.title }}</a> - Рейтинг: {{ (tour.ratings|sum(attribute='score') / tour.ratings|length)|round(1) if tour.ratings else 'Нет оценок' }}</li>
+            {% endfor %}
+        {% else %}
+            <li>Пока нет оцененных туров</li>
+        {% endif %}
+    </ul>
+{% endblock %} 

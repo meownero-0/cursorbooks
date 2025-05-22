@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}{{ book.title }} - Исторические туры по городу{% endblock %}
+
+{% block content %}
+    <div class="book-detail">
+        <h1>{{ book.title }}</h1>
+        <p class="author">автор: {{ book.author }}</p>
+        
+        <div class="book-info">
+            <h2>О книге</h2>
+            <p>{{ book.description }}</p>
+        </div>
+
+        <div class="tour-info">
+            <h2>Информация о туре</h2>
+            <p><strong>Продолжительность:</strong> {{ tour.duration_minutes }} минут</p>
+            <p><strong>Описание:</strong> {{ tour.summary }}</p>
+            
+            <h3>Точки маршрута</h3>
+            <ul>
+                {% if points %}
+                    {% for point in points %}
+                        <li>{{ point.name }} ({{ point.lat }}, {{ point.lng }})</li>
+                    {% endfor %}
+                {% else %}
+                    {% for point in tour.points_of_interest.split(',') %}
+                        <li>{{ point.strip() }}</li>
+                    {% endfor %}
+                {% endif %}
+            </ul>
+            
+            <div id="map" style="width: 100%; height: 400px; margin: 20px 0;"></div>
+            <a href="{{ tour.yandex_maps_url }}" target="_blank" class="map-link">Открыть в Яндекс.Картах</a>
+        </div>
+
+        <div class="tour-stats">
+            <h3>Статистика тура</h3>
+            <p><strong>Средний рейтинг:</strong> {{ avg_rating|round(1) if avg_rating else 'Нет оценок' }}</p>
+            <p><strong>Прохождений:</strong> {{ tour.completions|length }}</p>
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <div class="user-actions">
+                {% if not has_completed %}
+                    <form action="{{ url_for('complete_tour', tour_id=tour.id) }}" method="post">
+                        <button type="submit" class="complete-btn">Отметить тур как пройденный</button>
+                    </form>
+                {% else %}
+                    <p class="completed-message">✓ Вы прошли этот тур!</p>
+                {% endif %}
+
+                <div class="rating-section">
+                    <h3>Оценить тур</h3>
+                    {% if user_rating %}
+                        <p>Ваша оценка: {{ user_rating }}/10</p>
+                    {% endif %}
+                    <form action="{{ url_for('rate_tour', tour_id=tour.id) }}" method="post">
+                        <select name="rating" required>
+                            <option value="">Выберите оценку</option>
+                            {% for i in range(1, 11) %}
+                                <option value="{{ i }}" {% if user_rating == i %}selected{% endif %}>{{ i }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit">Отправить оценку</button>
+                    </form>
+                </div>
+            </div>
+        {% else %}
+            <div class="login-prompt">
+                <p>Пожалуйста, <a href="{{ url_for('login') }}">войдите</a>, чтобы отметить тур как пройденный и оценить его.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        var points = {{ points|tojson|safe if points else 'null' }};
+    </script>
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=98b2e33e-e97e-4c57-8eb5-1451ec7c1d1b&lang=ru_RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(function () {
+            var map = new ymaps.Map('map', {
+                center: [59.9342802, 30.3350986], // Санкт-Петербург
+                zoom: 12
+            });
+
+            var referencePoints = [];
+            if (points && Array.isArray(points)) {
+                referencePoints = points.map(function(p) { return [p.lat, p.lng]; });
+            } else {
+                referencePoints = "{{ tour.points_of_interest }}".split(',').map(function(point) { return point.trim(); });
+            }
+
+            // Add placemarks for each point
+            if (points && Array.isArray(points)) {
+                points.forEach(function(p) {
+                    var placemark = new ymaps.Placemark([p.lat, p.lng], { balloonContent: p.name });
+                    map.geoObjects.add(placemark);
+                });
+            }
+
+            // Only create a route if there are at least two points
+            if (referencePoints.length > 1) {
+                var multiRoute = new ymaps.multiRouter.MultiRoute({
+                    referencePoints: referencePoints,
+                    params: {
+                        routingMode: 'pedestrian'
+                    }
+                }, {
+                    boundsAutoApply: true
+                });
+                map.geoObjects.add(multiRoute);
+            }
+        });
+    </script>
+{% endblock %} 
